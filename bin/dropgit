@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'dropgit'
+
+app = Dropgit.new
+if ARGV.length > 0 && app.respond_to?(ARGV[0])
+  app.method(ARGV[0]).call(*ARGV.drop(1))
+else
+  app.help
+end
