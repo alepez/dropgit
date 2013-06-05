@@ -2,10 +2,10 @@
 
 require 'dropgit'
 
-app = Dropgit.new
-app.set_paths(ARGV[0], ARGV[1])
+app = DropGit::App.new
+
 if ARGV.length > 0 && app.respond_to?(ARGV[0])
-  app.method(ARGV[2]).call(*ARGV.drop(3))
+  app.method(ARGV[0]).call(*ARGV.drop(1))
 else
   app.help
 end
