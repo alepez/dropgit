@@ -5,7 +5,12 @@ require 'dropgit'
 app = DropGit::App.new
 
 if ARGV.length > 0 && app.respond_to?(ARGV[0])
-  app.method(ARGV[0]).call(*ARGV.drop(1))
+  begin
+    app.method(ARGV[0]).call(*ARGV.drop(1))
+  rescue Exception => e
+    puts "Error: #{e.message}"
+    app.help
+  end
 else
   app.help
 end

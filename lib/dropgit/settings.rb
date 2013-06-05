@@ -3,6 +3,7 @@ require 'yaml'
 module DropGit
   # Manage DropGit settings
   class Settings
+    attr_accessor :repositories, :git_base
     @@directory = File.join(Dir.home, ".dropgit")
     @@filename = File.join(@@directory, "settings")
     # Constructor
@@ -11,13 +12,8 @@ module DropGit
       load
     end
 
-    def add(path)
-      basename = File.basename(path)
-      repository = {
-        :name => basename,
-        :path => path
-      }
-      @repositories << repository
+    def add_repo(repository)
+      @repositories << repository.data
       save
     end
 
@@ -30,13 +26,12 @@ module DropGit
         data = YAML::load(File.read(@@filename))
         data.each do |key, val|
           instance_variable_set("@#{key}", val)
-          # TODO: add accessor
         end
       end
       # defaults
-      @repositories = [] unless @repositories
-      @dropbox_base = File.join(Dir.home, "Dropbox") unless @dropbox_base
       @git_base =  File.join(Dir.home, ".dropgit", "repositories") unless @git_base
+      Dir.mkdir(@git_base) unless Dir.exists?(@git_base)
+      @repositories = [] unless @repositories
       save
     end
 

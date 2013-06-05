@@ -1,9 +1,14 @@
 require 'daemons'
+require 'dropgit/repository.rb'
+require 'dropgit/settings.rb'
 
 module DropGit
   class Daemon
     def initialize
       @repositories = []
+      DropGit.settings.repositories.each do |data|
+        @repositories << Repository.new(data)
+      end
     end
 
     # run
