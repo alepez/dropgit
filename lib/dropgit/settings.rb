@@ -34,14 +34,15 @@ module DropGit
 
     # save
     def save
-      puts "Save!"
       data = {}
       instance_variables.each {|var| data[var.to_s.delete("@")] = instance_variable_get(var) }
-      YAML::dump(data, File.open(@@filename, 'w'))
-      YAML::dump(data)
+      file = File.open(@@filename, 'w')
+      YAML::dump(data, file)
+      file.close
     end
 
     def populate_default
+      puts "Initializing #{@@filename} with default settings"
       @git_base =  File.join(Dir.home, ".dropgit", "repositories") unless @git_base
       Dir.mkdir(@git_base) unless Dir.exists?(@git_base)
       @daemon_dir = "#{@@directory}/daemon"
