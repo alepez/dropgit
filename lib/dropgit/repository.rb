@@ -24,24 +24,26 @@ module DropGit
         git_push
       end
       if git_pull
-      
+
       end
     end
 
     def git_init(remote)
+      @remote = remote
       raise "Repository '#{@name}' already exists in '#{@git_dir}'" if File.exists?(@git_dir)
       puts "Initializing git repository in #{@git_dir} from data in #{@path}"
       puts git "init"
       puts git "add ."
       puts git "commit -m 'DropGit initial commit'"
-      puts git "remote add origin #{remote}"
+      puts git "remote add origin #{@remote}"
       puts git "push -u origin master"
     end
 
     def data
       {
         'name' => @name,
-        'path' => @path
+        'path' => @path,
+        'remote' => @remote
       }
     end
 
