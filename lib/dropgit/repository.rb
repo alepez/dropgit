@@ -19,12 +19,12 @@ module DropGit
 
     def update
       if need_sync?
-        puts "#{@name} out of sync, committing..."
         git_commit
         git_push
+        puts "#{@name} remote was out of sync, pushed"
       end
       if git_pull
-
+        puts "#{@name} local was out of sync, pulled"
       end
     end
 
@@ -67,7 +67,8 @@ module DropGit
     end
 
     def git_pull
-      p git "pull"
+      out = git "pull"
+      out != "Already up-to-date.\n"
     end
 
     # call git
