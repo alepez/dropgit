@@ -8,8 +8,10 @@ if ARGV.length > 0 && app.respond_to?(ARGV[0])
   begin
     app.method(ARGV[0]).call(*ARGV.drop(1))
   rescue Exception => e
-    puts "Error: #{e.message}"
-    app.help
+    if e.class != SystemExit
+      puts "Error: #{e.class} #{e.message}"
+      app.help
+    end
   end
 else
   app.help

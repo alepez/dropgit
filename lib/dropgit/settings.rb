@@ -3,7 +3,7 @@ require 'yaml'
 module DropGit
   # Manage DropGit settings
   class Settings
-    attr_accessor :repositories, :git_base
+    attr_accessor :repositories, :git_base, :daemon_dir
     @@directory = File.join(Dir.home, ".dropgit")
     @@filename = File.join(@@directory, "settings")
     # Constructor
@@ -31,6 +31,8 @@ module DropGit
       # defaults
       @git_base =  File.join(Dir.home, ".dropgit", "repositories") unless @git_base
       Dir.mkdir(@git_base) unless Dir.exists?(@git_base)
+      @daemon_dir = "#{@@directory}/daemon"
+      Dir.mkdir(@daemon_dir) unless Dir.exists?(@daemon_dir)
       @repositories = [] unless @repositories
       save
     end
