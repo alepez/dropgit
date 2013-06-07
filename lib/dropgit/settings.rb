@@ -27,8 +27,21 @@ module DropGit
         data.each do |key, val|
           instance_variable_set("@#{key}", val)
         end
+      else
+        populate_default
       end
-      # defaults
+    end
+
+    # save
+    def save
+      puts "Save!"
+      data = {}
+      instance_variables.each {|var| data[var.to_s.delete("@")] = instance_variable_get(var) }
+      YAML::dump(data, File.open(@@filename, 'w'))
+      YAML::dump(data)
+    end
+
+    def populate_default
       @git_base =  File.join(Dir.home, ".dropgit", "repositories") unless @git_base
       Dir.mkdir(@git_base) unless Dir.exists?(@git_base)
       @daemon_dir = "#{@@directory}/daemon"
@@ -37,12 +50,5 @@ module DropGit
       save
     end
 
-    # save
-    def save
-      data = {}
-      instance_variables.each {|var| data[var.to_s.delete("@")] = instance_variable_get(var) }
-      YAML::dump(data, File.open(@@filename, 'w'))
-      YAML::dump(data)
-    end
   end
 end
