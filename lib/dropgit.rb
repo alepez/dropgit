@@ -66,25 +66,16 @@ module DropGit
 
     # start daemon
     def start
-      Daemons.daemonize({
-        :app_name => 'dropgit',
-        :dir_mode => :normal,
-        :dir => DropGit.settings.daemon_dir,
-        :log_output => true
-      })
-      daemon = Daemon.new
-      daemon.run
+      Daemon.new.start
     end
 
     # debug daemon
     def run
-      daemon = Daemon.new
-      daemon.run
+      Daemon.new.run
     end
 
     def stop
-      pid = `cat #{DropGit.settings.daemon_dir}/dropgit.pid`
-      Process.kill("INT", pid.to_i)
+      Daemon.new.stop
     end
 
   end
