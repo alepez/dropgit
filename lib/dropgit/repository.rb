@@ -63,11 +63,11 @@ module DropGit
     end
 
     def git_push
-      git "push"
+      git "push origin master"
     end
 
     def git_pull
-      out = git "pull"
+      out = git "pull origin master"
       out != "Already up-to-date.\n"
     end
 

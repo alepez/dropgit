@@ -15,7 +15,7 @@ module DropGit
     def run
       loop do
         @repositories.each { |r| r.update }
-        sleep 1
+        sleep 600
       end
     end
 
